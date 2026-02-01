@@ -231,3 +231,85 @@ def stream_song(request, song_id):
     
     file_handle.close()
     return response
+
+@login_required
+def analyze_song_emotion(request, song_id):
+    """
+    Phân tích cảm xúc bài hát sử dụng AI
+    
+    Flow:
+    1. Lấy bài hát từ database
+    2. Kiểm tra có lyrics không
+    3. Gọi AI model (EmotionClassifier)
+    4. Lưu emotion + confidence vào database
+    5. Hiển thị thông báo cho user
+    6. Redirect về player page
+    
+    Args:
+        request: HTTP request
+        song_id: ID của bài hát cần phân tích
+        
+    Returns:
+        HttpResponse: Redirect to player page
+    """
+    try:
+        # Get song from database
+        song = Song.objects.get(id=song_id)
+        
+        # Check if song has lyrics
+        if not song.lyrics or len(song.lyrics.strip()) < 20:
+            messages.warning(
+                request,
+                '⚠️ Bài hát cần có lời bài hát (ít nhất 20 ký tự) để phân tích cảm xúc.'
+            )
+            return redirect('player', song_id=song_id)
+        
+        # Import AI model (lazy import to avoid loading at startup)
+        from .ml_models import get_emotion_classifier
+        
+        # Get classifier instance
+        classifier = get_emotion_classifier()
+        
+        # Predict emotion
+        result = classifier.predict(song.lyrics)
+        
+        if isinstance(result, dict) and 'emotion' in result:
+            # Save to database
+            song.emotion = result['emotion']
+            song.emotion_confidence = result['confidence']
+            song.save()
+            
+            # Get Vietnamese emotion name for display
+            emotion_display = dict(Song._meta.get_field('emotion').choices)[result['emotion']]
+            
+            # Success message
+            messages.success(
+                request,
+                f'✅ Phân loại thành công: <strong>{emotion_display}</strong> '
+                f'({result["confidence"]:.1%} độ tin cậy)'
+            )
+        elif isinstance(result, dict) and 'error' in result:
+            messages.error(
+                request, 
+                f'❌ Lỗi AI: {result["error"]}'
+            )
+        else:
+            messages.error(
+                request, 
+                '❌ Không thể phân tích. Vui lòng kiểm tra lại lời bài hát hoặc thử lại sau.'
+            )
+            
+    except Song.DoesNotExist:
+        messages.error(request, '❌ Không tìm thấy bài hát.')
+    except Exception as e:
+        # Log error for debugging
+        import logging
+        logger = logging.getLogger(__name__)
+        logger.error(f"Error analyzing emotion for song {song_id}: {e}")
+        
+        messages.error(
+            request, 
+            f'❌ Lỗi khi phân tích: {str(e)}'
+        )
+    
+    return redirect('player', song_id=song_id)

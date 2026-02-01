@@ -15,4 +15,5 @@ urlpatterns = [
     path('playlist/<int:playlist_id>/remove-song/<int:song_id>/', views.remove_song_from_playlist, name='remove_song_from_playlist'),
     path('comment/<int:song_id>/', views.add_comment, name='add_comment'),
     path('song/<int:song_id>/stream/', views.stream_song, name='stream_song'),
+    path('song/<int:song_id>/analyze-emotion/', views.analyze_song_emotion, name='analyze_emotion'),
 ]

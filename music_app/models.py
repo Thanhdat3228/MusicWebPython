@@ -10,6 +10,29 @@ class Song(models.Model):
     duration = models.DurationField(null=True, blank=True)
     lyrics = models.TextField(blank=True, help_text="Lời bài hát")
     uploaded_at = models.DateTimeField(auto_now_add=True)
+    
+    # AI Emotion Classification fields
+    emotion = models.CharField(
+        max_length=20,
+        choices=[
+            ('happy', 'Vui'),
+            ('sad', 'Buồn'),
+            ('relaxed', 'Thư giãn'),
+            ('contemplative', 'Sâu lắng'),
+            ('unknown', 'Chưa phân loại')
+        ],
+        default='unknown',
+        blank=True,
+        help_text="Cảm xúc được phân loại bởi AI"
+    )
+    emotion_confidence = models.FloatField(
+        default=0.0,
+        help_text="Độ tin cậy của AI (0.0 - 1.0)"
+    )
+
+    @property
+    def emotion_confidence_pct(self):
+        return self.emotion_confidence * 100
 
     def __str__(self):
         return f"{self.title} - {self.artist}"

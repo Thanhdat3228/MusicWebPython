@@ -228,6 +228,36 @@
     .btn-close-white {
       filter: invert(1) grayscale(100%) brightness(200%);
     }
+
+    /* AI Emotion Badges in Cards */
+    .emotion-badge-sm {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: white;
+      margin-top: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .emotion-happy {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    }
+
+    .emotion-sad {
+      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    }
+
+    .emotion-relaxed {
+      background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    }
+
+    .emotion-contemplative {
+      background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+    }
   </style>
 </head>
 
@@ -423,10 +453,18 @@
                 <h5 class="card-title">{{ song.title }}</h5>
                 <p class="card-text text-secondary mb-1">{{ song.artist }}</p>
                 {% if song.album %}
-                <p class="card-text">
+                <p class="card-text mb-1">
                   <span class="badge badge-soft"><i class="fas fa-record-vinyl me-1"></i>{{ song.album}}
                   </span>
                 </p>
+                {% endif %}
+
+                {% if song.emotion and song.emotion != 'unknown' %}
+                <div class="emotion-badge-sm emotion-{{ song.emotion }}">
+                  <i
+                    class="fas {% if song.emotion == 'happy' %}fa-smile{% elif song.emotion == 'sad' %}fa-frown{% elif song.emotion == 'relaxed' %}fa-leaf{% else %}fa-brain{% endif %}"></i>
+                  {{ song.get_emotion_display }}
+                </div>
                 {% endif %}
                 <button type="button" class="btn play-btn mt-2" aria-label="Phát {{ song.title }}">
                   <i class="fas fa-play"></i>

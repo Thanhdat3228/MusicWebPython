@@ -1,275 +1,234 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{{ playlist.name }} - My Music</title>
 
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-    />
-    <style>
-      body {
-        background: #0f172a;
-        color: #e2e8f0;
-      }
-      .navbar {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      }
-      .hero {
-        background: radial-gradient(
-            circle at 10% 20%,
-            #667eea33 0,
-            transparent 25%
-          ),
-          radial-gradient(circle at 80% 0, #22d3ee22 0, transparent 30%),
-          #0f172a;
-        border-radius: 20px;
-        padding: 2rem;
-        color: #e2e8f0;
-        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.35);
-      }
-      .song-card {
-        background: linear-gradient(160deg, #111827 0%, #0b1222 100%);
-        border: 1px solid #1f2937;
-        transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
-        cursor: pointer;
-      }
-      .song-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
-        border-color: #3b82f6;
-      }
-      .play-btn {
-        background: linear-gradient(135deg, #22c55e, #16a34a);
-        border: none;
-        border-radius: 50%;
-        width: 44px;
-        height: 44px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        box-shadow: 0 8px 16px rgba(34, 197, 94, 0.25);
-      }
-      .playlist-card {
-        background: #0b1222;
-        border: 1px solid #1f2937;
-        border-radius: 14px;
-        padding: 1rem;
-        margin-bottom: 1rem;
-      }
-      .playlist-card:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-        border-color: #3b82f6;
-      }
-      .badge-soft {
-        background: rgba(59, 130, 246, 0.1);
-        color: #93c5fd;
-        border: 1px solid rgba(59, 130, 246, 0.3);
-      }
-    </style>
-  </head>
-  <body>
-    <nav class="navbar navbar-expand-lg navbar-dark">
-      <div class="container">
-        <a class="navbar-brand" href="{% url 'home' %}"
-          ><i class="fas fa-music"></i> My Music</a
-        >
-        <div class="navbar-nav ms-auto">
-          <span class="navbar-text me-3">Welcome, {{ user.username }}</span>
-          <a class="nav-link" href="{% url 'logout' %}">Logout</a>
-        </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ playlist.name }} - My Music</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  <style>
+    body {
+      background: #0f172a;
+      color: #e2e8f0;
+    }
+
+    .navbar {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .hero {
+      background: radial-gradient(circle at 10% 20%,
+          #667eea33 0,
+          transparent 25%),
+        radial-gradient(circle at 80% 0, #22d3ee22 0, transparent 30%),
+        #0f172a;
+      border-radius: 20px;
+      padding: 2rem;
+      color: #e2e8f0;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.35);
+    }
+
+    .song-card {
+      background: linear-gradient(160deg, #111827 0%, #0b1222 100%);
+      border: 1px solid #1f2937;
+      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+      cursor: pointer;
+    }
+
+    .song-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+      border-color: #3b82f6;
+    }
+
+    .play-btn {
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      border: none;
+      border-radius: 50%;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      box-shadow: 0 8px 16px rgba(34, 197, 94, 0.25);
+    }
+
+    .playlist-card {
+      background: #0b1222;
+      border: 1px solid #1f2937;
+      border-radius: 14px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .playlist-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+      border-color: #3b82f6;
+    }
+
+    .badge-soft {
+      background: rgba(59, 130, 246, 0.1);
+      color: #93c5fd;
+      border: 1px solid rgba(59, 130, 246, 0.3);
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+      <a class="navbar-brand" href="{% url 'home' %}"><i class="fas fa-music"></i> My Music</a>
+      <div class="navbar-nav ms-auto">
+        <span class="navbar-text me-3">Welcome, {{ user.username }}</span>
+        <a class="nav-link" href="{% url 'logout' %}">Logout</a>
       </div>
-    </nav>
+    </div>
+  </nav>
 
-    <div class="container mt-4">
-      <div class="hero mb-4">
-        <div
-          class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3"
-        >
-          <div>
-            <a
-              href="{% url 'home' %}"
-              class="btn btn-sm btn-outline-light mb-3"
-            >
-              <i class="fas fa-arrow-left me-2"></i>Quay lại
-            </a>
-            <p class="text-uppercase small mb-1 text-info fw-semibold">
-              Playlist
-            </p>
-            <h1 class="mb-2">{{ playlist.name }}</h1>
-            <p class="mb-0 text-secondary">{{ songs|length }} bài hát</p>
-          </div>
-          <div>
-            {% if songs %}
-            <button
-              type="button"
-              class="btn btn-lg"
-              style="
+  <div class="container mt-4">
+    <div class="hero mb-4">
+      <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
+        <div>
+          <a href="{% url 'home' %}" class="btn btn-sm btn-outline-light mb-3">
+            <i class="fas fa-arrow-left me-2"></i>Quay lại
+          </a>
+          <p class="text-uppercase small mb-1 text-info fw-semibold">
+            Playlist
+          </p>
+          <h1 class="mb-2">{{ playlist.name }}</h1>
+          <p class="mb-0 text-secondary">{{ songs|length }} bài hát</p>
+        </div>
+        <div>
+          {% if songs %}
+          <button type="button" class="btn btn-lg" style="
                 background: linear-gradient(135deg, #22c55e, #16a34a);
                 border: none;
                 color: white;
-              "
-              onclick="playFirstSong()"
-            >
-              <i class="fas fa-play me-2"></i>Phát tất cả
-            </button>
-            {% endif %}
-          </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-lg-3 mb-4">
-          <div class="d-flex align-items-center justify-content-between mb-3">
-            <h5 class="mb-0">Playlist khác</h5>
-            <span class="badge bg-secondary">{{ playlists|length }}</span>
-          </div>
-          {% if playlists %} {% for p in playlists %} {% if p.id != playlist.id
-          %}
-          <a
-            href="{% url 'playlist_detail' p.id %}"
-            class="text-decoration-none text-reset"
-          >
-            <div class="playlist-card" style="cursor: pointer">
-              <div class="d-flex justify-content-between align-items-center">
-                <div style="flex: 1">
-                  <div class="fw-semibold">{{ p.name }}</div>
-                  <small class="text-secondary"
-                    >{{ p.songs.count }} bài hát</small
-                  >
-                </div>
-              </div>
-            </div>
-          </a>
-          {% endfor %} {% endif %} {% else %}
-          <div class="alert alert-secondary text-secondary small mb-0">
-            Chưa có playlist nào khác.
-          </div>
+              " onclick="playFirstSong()">
+            <i class="fas fa-play me-2"></i>Phát tất cả
+          </button>
           {% endif %}
         </div>
+      </div>
+    </div>
 
-        <div class="col-lg-9">
-          <div class="d-flex align-items-center justify-content-between mb-3">
-            <h5 class="mb-0">Danh sách bài hát</h5>
-            <span class="text-secondary small">{{ songs|length }} bài</span>
+    <div class="row">
+      <div class="col-lg-3 mb-4">
+        <div class="d-flex align-items-center justify-content-between mb-3">
+          <h5 class="mb-0">Playlist khác</h5>
+          <span class="badge bg-secondary">{{ playlists|length }}</span>
+        </div>
+        {% if playlists %} {% for p in playlists %} {% if p.id != playlist.id
+        %}
+        <a href="{% url 'playlist_detail' p.id %}" class="text-decoration-none text-reset">
+          <div class="playlist-card" style="cursor: pointer">
+            <div class="d-flex justify-content-between align-items-center">
+              <div style="flex: 1">
+                <div class="fw-semibold">{{ p.name }}</div>
+                <small class="text-secondary">{{ p.songs.count }} bài hát</small>
+              </div>
+            </div>
           </div>
+        </a>
+        {% endfor %} {% endif %} {% else %}
+        <div class="alert alert-secondary text-secondary small mb-0">
+          Chưa có playlist nào khác.
+        </div>
+        {% endif %}
+      </div>
 
-          <div class="row" id="song-grid">
-            {% if songs %} {% for song in songs %}
-            <div class="col-md-6 col-xl-4 mb-4 song-card-wrap">
-              <a
-                class="card song-card h-100 text-decoration-none text-reset"
-                href="{% url 'player' song.id %}"
-              >
-                <div class="card-body text-center">
-                  {% if song.image %}
-                  <img
-                    src="{{ song.image.url }}"
-                    alt="{{ song.title }}"
-                    class="img-fluid mb-3"
-                    style="
+      <div class="col-lg-9">
+        <div class="d-flex align-items-center justify-content-between mb-3">
+          <h5 class="mb-0">Danh sách bài hát</h5>
+          <span class="text-secondary small">{{ songs|length }} bài</span>
+        </div>
+
+        <div class="row" id="song-grid">
+          {% if songs %} {% for song in songs %}
+          <div class="col-md-6 col-xl-4 mb-4 song-card-wrap">
+            <a class="card song-card h-100 text-decoration-none text-reset" href="{% url 'player' song.id %}">
+              <div class="card-body text-center">
+                {% if song.image %}
+                <img src="{{ song.image.url }}" alt="{{ song.title }}" class="img-fluid mb-3" style="
                       max-height: 200px;
                       object-fit: cover;
                       border-radius: 12px;
-                    "
-                  />
-                  {% else %}
-                  <div
-                    class="bg-secondary bg-opacity-25 text-white d-flex align-items-center justify-content-center mb-3"
-                    style="height: 200px; border-radius: 12px"
-                  >
-                    <i class="fas fa-music fa-3x text-secondary"></i>
-                  </div>
-                  {% endif %}
-                  <h5 class="card-title">{{ song.title }}</h5>
-                  <p class="card-text text-secondary mb-1">{{ song.artist }}</p>
-                  {% if song.album %}
-                  <p class="card-text">
-                    <span class="badge badge-soft"
-                      ><i class="fas fa-record-vinyl me-1"></i>{{ song.album
-                      }}</span
-                    >
-                  </p>
-                  {% endif %}
-                  <button
-                    type="button"
-                    class="btn play-btn mt-2"
-                    aria-label="Phát {{ song.title }}"
-                    onclick="event.preventDefault(); window.location.href='{% url 'player' song.id %}';"
-                  >
-                    <i class="fas fa-play"></i>
-                  </button>
-                  <a
-                    href="{% url 'remove_song_from_playlist' song.id playlist.id %}"
-                    class="btn btn-danger btn-sm mt-2"
-                    onclick="return confirm('Bạn có chắc muốn xóa bài hát này khỏi playlist?');"
-                  >
-                    <i class="fas fa-trash"></i> Xóa
-                  </a>
+                    " />
+                {% else %}
+                <div class="bg-secondary bg-opacity-25 text-white d-flex align-items-center justify-content-center mb-3"
+                  style="height: 200px; border-radius: 12px">
+                  <i class="fas fa-music fa-3x text-secondary"></i>
                 </div>
-              </a>
-            </div>
-            {% endfor %} {% else %}
-            <div class="col-12">
-              <div class="alert alert-info text-center py-5">
-                <i class="fas fa-music fa-3x mb-3 text-secondary"></i>
-                <h5>Playlist này chưa có bài hát nào</h5>
-                <p class="mb-0">
-                  Hãy thêm bài hát vào playlist từ trang home hoặc player.
+                {% endif %}
+                <h5 class="card-title">{{ song.title }}</h5>
+                <p class="card-text text-secondary mb-1">{{ song.artist }}</p>
+                {% if song.album %}
+                <p class="card-text">
+                  <span class="badge badge-soft"><i class="fas fa-record-vinyl me-1"></i>{{ song.album
+                    }}</span>
                 </p>
-                <a
-                  href="{% url 'home' %}"
-                  class="btn btn-primary mt-3"
-                  style="
+                {% endif %}
+                <button type="button" class="btn play-btn mt-2" aria-label="Phát {{ song.title }}"
+                  onclick="event.preventDefault(); window.location.href='{% url 'player' song.id %}';">
+                  <i class="fas fa-play"></i>
+                </button>
+                <a href="{% url 'remove_song_from_playlist' song.id playlist.id %}" class="btn btn-danger btn-sm mt-2"
+                  onclick="return confirm('Bạn có chắc muốn xóa bài hát này khỏi playlist?');">
+                  <i class="fas fa-trash"></i> Xóa
+                </a>
+              </div>
+            </a>
+          </div>
+          {% endfor %} {% else %}
+          <div class="col-12">
+            <div class="alert alert-info text-center py-5">
+              <i class="fas fa-music fa-3x mb-3 text-secondary"></i>
+              <h5>Playlist này chưa có bài hát nào</h5>
+              <p class="mb-0">
+                Hãy thêm bài hát vào playlist từ trang home hoặc player.
+              </p>
+              <a href="{% url 'home' %}" class="btn btn-primary mt-3" style="
                     background: linear-gradient(
                       135deg,
                       #667eea 0%,
                       #764ba2 100%
                     );
                     border: none;
-                  "
-                >
-                  <i class="fas fa-arrow-left me-2"></i>Quay lại trang chủ
-                </a>
-              </div>
+                  ">
+                <i class="fas fa-arrow-left me-2"></i>Quay lại trang chủ
+              </a>
             </div>
-            {% endif %}
           </div>
+          {% endif %}
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- Hiển thị messages -->
-    {% if messages %}
-    <div class="position-fixed top-0 end-0 p-3" style="z-index: 11">
-      {% for message in messages %}
-      <div
-        class="alert alert-{{ message.tags }} alert-dismissible fade show"
-        role="alert"
-      >
-        {{ message }}
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="alert"
-        ></button>
-      </div>
-      {% endfor %}
+  <!-- Hiển thị messages -->
+  {% if messages %}
+  <div class="position-fixed top-0 end-0 p-3" style="z-index: 11">
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+      {{ message }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
-    {% endif %}
+    {% endfor %}
+  </div>
+  {% endif %}
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-      function playFirstSong() {
-        const firstSong = document.querySelector(".song-card-wrap a");
-        if (firstSong) {
-          window.location.href = firstSong.href;
-        }
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    function playFirstSong() {
+      const firstSong = document.querySelector(".song-card-wrap a");
+      if (firstSong) {
+        window.location.href = firstSong.href;
       }
-    </script>
-  </body>
+    }
+  </script>
+</body>
+
 </html>
