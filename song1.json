@@ -1,0 +1,67 @@
+[
+  {
+    "model": "music_app.song",
+    "pk": 1,
+    "fields": {
+      "title": "Nơi này có anh",
+      "artist": "Sơn Tùng MTP",
+      "album": "Single",
+      "file": "songs/noi_nay_co_anh.mp3",
+      "image": "covers/noi_nay_co_anh.jpg",
+      "duration": "00:04:30",
+      "uploaded_at": "2024-01-01T12:00:00Z"
+    }
+  },
+  {
+    "model": "music_app.song",
+    "pk": 2,
+    "fields": {
+      "title": "Em của ngày hôm qua",
+      "artist": "Sơn Tùng MTP",
+      "album": "Single",
+      "file": "songs/em_cua_ngay_hom_qua.mp3",
+      "image": "covers/em_cua_ngay_hom_qua.jpg",
+      "duration": "00:05:00",
+      "uploaded_at": "2024-01-02T12:00:00Z"
+    }
+  },
+  {
+    "model": "music_app.song",
+    "pk": 3,
+    "fields": {
+      "title": "Nơi này có anh",
+      "artist": "Sơn Tùng MTP",
+      "album": "Live Concert",
+      "file": "songs/em_cua_ngay_hom_qua.mp3",
+      "image": "covers/em_cua_ngay_hom_qua.jpg",
+      "duration": "00:06:10",
+      "uploaded_at": "2024-01-03T12:00:00Z"
+    }
+  },
+  {
+    "model": "music_app.song",
+    "pk": 4,
+    "fields": {
+      "title": "Không phải dạng vừa đâu",
+      "artist": "Sơn Tùng MTP",
+      "album": "Single",
+      "file": "songs/khong_phai_dang_vua_dau.mp3",
+      "image": "covers/khong_phai_dang_vua_dau.jpg",
+      "duration": "00:04:45",
+      "uploaded_at": "2024-01-04T12:00:00Z"
+    }
+  },
+  {
+    "model": "music_app.song",
+    "pk": 5,
+    "fields": {
+      "title": "Lạc trôi",
+      "artist": "Sơn Tùng MTP",
+      "album": "Single",
+      "file": "songs/lac_troi.mp3",
+      "image": "covers/lac_troi.jpg",
+      "duration": "00:04:35",
+      "uploaded_at": "2024-01-10T12:00:00Z"
+    }
+  }
+]

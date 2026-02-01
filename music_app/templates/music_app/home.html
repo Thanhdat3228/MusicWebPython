@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home - My Music</title>
+  <!-- Google Fonts: Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  <style>
+    :root {
+      --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
+      --glass-bg: rgba(255, 255, 255, 0.05);
+      --glass-border: rgba(255, 255, 255, 0.1);
+      --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+      --primary-color: #a855f7;
+    }
+
+    .bg-glass {
+      background: rgba(255, 255, 255, 0.1) !important;
+      backdrop-filter: blur(10px) !important;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: #0f172a;
+      color: #e2e8f0;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Dynamic Background Animation */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background:
+        radial-gradient(circle at 15% 50%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 85% 30%, rgba(236, 72, 153, 0.15) 0%, transparent 50%);
+      z-index: -1;
+      animation: bgPulse 10s ease-in-out infinite alternate;
+    }
+
+    @keyframes bgPulse {
+      0% {
+        transform: scale(1);
+        opacity: 0.5;
+      }
+
+      100% {
+        transform: scale(1.1);
+        opacity: 0.8;
+      }
+    }
+
+    .navbar {
+      background: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--glass-border);
+      padding: 1rem 0;
+    }
+
+    .navbar-brand {
+      font-weight: 700;
+      font-size: 1.5rem;
+      background: var(--primary-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero {
+      background: rgba(30, 41, 59, 0.4);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--glass-border);
+      border-radius: 24px;
+      padding: 3rem;
+      box-shadow: var(--glass-shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.03) 0%, transparent 60%);
+      animation: rotate 20s linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes rotate {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .song-card-wrap {
+      perspective: 1000px;
+    }
+
+    .song-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+      backdrop-filter: blur(8px);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .song-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.3);
+      box-shadow:
+        0 10px 40px -10px rgba(99, 102, 241, 0.3),
+        0 0 20px 0 rgba(168, 85, 247, 0.2);
+    }
+
+    .song-card img {
+      border-radius: 12px;
+      transition: transform 0.5s ease;
+    }
+
+    .song-card:hover img {
+      transform: scale(1.05);
+    }
+
+    .play-btn {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: var(--primary-gradient);
+      border: none;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+      transition: all 0.3s ease;
+    }
+
+    .play-btn:hover {
+      transform: scale(1.1) rotate(10deg);
+      box-shadow: 0 8px 25px rgba(236, 72, 153, 0.5);
+    }
+
+    .playlist-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .playlist-card:hover {
+      background: rgba(255, 255, 255, 0.08);
+      transform: translateX(5px);
+      border-color: rgba(168, 85, 247, 0.5);
+    }
+
+    .search-input {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--glass-border);
+      color: white;
+      padding: 0.75rem 1.25rem;
+      border-radius: 50px;
+      transition: all 0.3s ease;
+    }
+
+    .search-input:focus {
+      background: rgba(15, 23, 42, 0.9);
+      border-color: #a855f7;
+      box-shadow: 0 0 0 4px rgba(168, 85, 247, 0.15);
+      color: white;
+    }
+
+    .btn-primary-gradient {
+      background: var(--primary-gradient);
+      border: none;
+      color: white;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-primary-gradient:hover {
+      box-shadow: 0 0 20px rgba(236, 72, 153, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .badge-soft {
+      background: rgba(99, 102, 241, 0.15);
+      color: #c7d2fe;
+      border: 1px solid rgba(99, 102, 241, 0.3);
+    }
+
+    .modal-content {
+      background: #1e293b;
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+    }
+
+    .modal-header,
+    .modal-footer {
+      border-color: var(--glass-border);
+    }
+
+    .btn-close-white {
+      filter: invert(1) grayscale(100%) brightness(200%);
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+      <a class="navbar-brand" href="#"><i class="fas fa-music"></i> My Music</a>
+      <div class="navbar-nav ms-auto">
+        <a class="nav-link" href="{% url 'upload_song' %}">Upload Song</a>
+        <span class="navbar-text me-3">Welcome, {{ user.username }}</span>
+        <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container mt-4">
+    <!-- Hero Carousel & Search -->
+    <div class="hero mb-5 position-relative p-0 overflow-hidden" style="border-radius: 24px; height: 400px;">
+
+      <!-- Search Bar Overlay (Floating) -->
+      <div class="position-absolute w-100 h-100 d-flex flex-column justify-content-center align-items-center"
+        style="z-index: 20; background: rgba(15,23,42,0.3); pointer-events: none;">
+        <div class="container text-center" style="pointer-events: auto;">
+          <h2 class="display-5 fw-bold mb-4 text-white text-shadow">Khám phá thế giới âm nhạc</h2>
+          <div class="mx-auto" style="max-width: 600px;">
+            <div class="input-group">
+              <span class="input-group-text bg-glass border-0 text-white pl-3">
+                <i class="fas fa-search"></i>
+              </span>
+              <input type="text" class="form-control search-input ps-2 py-3" id="song-search"
+                placeholder="Tìm bài hát, nghệ sĩ..."
+                style="background: rgba(255,255,255,0.1) !important; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2) !important; font-size: 1.1rem;" />
+              <button type="button" class="btn btn-primary-gradient px-4" id="voice-search-btn">
+                <i class="fas fa-microphone"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Carousel Background -->
+      {% if songs %}
+      <div id="heroCarousel" class="carousel slide carousel-fade h-100" data-bs-ride="carousel">
+        <div class="carousel-inner h-100">
+          {% for song in songs|slice:":5" %}
+          <div class="carousel-item h-100 {% if forloop.first %}active{% endif %}">
+            <!-- Blurred Background Image -->
+            <div class="w-100 h-100 position-absolute top-0 start-0">
+              {% if song.image %}
+              <div
+                style="width: 100%; height: 100%; background: url('{{ song.image.url }}') center/cover no-repeat; filter: blur(8px) brightness(0.6); transform: scale(1.1);">
+              </div>
+              {% else %}
+              <div style="width: 100%; height: 100%; background: #1e293b; filter: blur(8px) brightness(0.6);"></div>
+              {% endif %}
+            </div>
+
+            <!-- Content Info (Optional, simple caption) -->
+            <div class="carousel-caption d-none d-md-block text-start"
+              style="z-index: 10; bottom: 2rem; left: 2rem; text-shadow: 0 2px 4px rgba(0,0,0,0.8);">
+              <div class="d-flex align-items-end gap-3">
+                {% if song.image %}
+                <img src="{{ song.image.url }}" class="rounded-3 shadow-lg"
+                  style="width: 120px; height: 120px; object-fit: cover; border: 2px solid rgba(255,255,255,0.2);">
+                {% endif %}
+                <div>
+                  <span class="badge bg-primary mb-2">Featured</span>
+                  <h3 class="fw-bold mb-0">{{ song.title }}</h3>
+                  <p class="mb-0 text-light opacity-75">{{ song.artist }}</p>
+                </div>
+                <a href="{% url 'player' song.id %}"
+                  class="btn btn-light rounded-circle ms-3 d-flex align-items-center justify-content-center shadow-lg"
+                  style="width: 50px; height: 50px; color: var(--primary-color);">
+                  <i class="fas fa-play"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev"
+          style="z-index: 25;">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next"
+          style="z-index: 25;">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        </button>
+      </div>
+      {% else %}
+      <!-- Fallback if no songs -->
+      <div class="d-flex align-items-center justify-content-center h-100 bg-secondary bg-opacity-25">
+        <i class="fas fa-music fa-5x text-secondary opacity-25"></i>
+      </div>
+      {% endif %}
+
+    </div>
+
+    <div class="row">
+      <div class="col-lg-3 mb-4">
+        <div class="d-flex align-items-center justify-content-between mb-3">
+          <h5 class="mb-0">Playlist</h5>
+          <span class="badge bg-secondary">{{ playlists|length }}</span>
+        </div>
+        <button type="button" class="btn btn-primary w-100 mb-3" data-bs-toggle="modal"
+          data-bs-target="#createPlaylistModal" style="
+              background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+              border: none;
+            ">
+          <i class="fas fa-plus me-2"></i>Tạo playlist mới
+        </button>
+        {% if playlists %} {% for playlist in playlists %}
+        <a href="{% url 'playlist_detail' playlist.id %}" class="text-decoration-none text-reset">
+          <div class="playlist-card" style="
+                cursor: pointer;
+                transition: transform 0.2s, box-shadow 0.2s;
+              ">
+            <div class="d-flex justify-content-between align-items-center">
+              <div style="flex: 1">
+                <div class="fw-semibold">{{ playlist.name }}</div>
+                <small class="text-secondary">{{ playlist.songs.count }} bài hát</small>
+              </div>
+              <div class="d-flex gap-2 align-items-center">
+                <span class="badge badge-soft">
+                  <i class="fas fa-music me-1"></i>Play
+                </span>
+                <button type="button" class="btn btn-sm btn-link text-danger p-0" data-bs-toggle="modal"
+                  data-bs-target="#deletePlaylistModal{{ playlist.id }}" title="Xóa playlist"
+                  style="font-size: 0.875rem" onclick="event.stopPropagation(); event.preventDefault();">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <!-- Modal xác nhận xóa playlist -->
+        <div class="modal fade" id="deletePlaylistModal{{ playlist.id }}" tabindex="-1">
+          <div class="modal-dialog">
+            <div class="modal-content" style="background: #0f172a; border: 1px solid #1f2937">
+              <div class="modal-header" style="border-bottom: 1px solid #1f2937">
+                <h5 class="modal-title" style="color: #e2e8f0">
+                  Xác nhận xóa
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+              </div>
+              <div class="modal-body" style="color: #e2e8f0">
+                Bạn có chắc chắn muốn xóa playlist "<strong>{{ playlist.name }}</strong>" không?
+              </div>
+              <div class="modal-footer" style="border-top: 1px solid #1f2937">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                  Hủy
+                </button>
+                <form method="POST" action="{% url 'delete_playlist' playlist.id %}" style="display: inline">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-danger">Xóa</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %} {% else %}
+        <div class="alert alert-secondary text-secondary small mb-0">
+          Chưa có playlist nào. Hãy tạo playlist mới để sắp xếp nhạc.
+        </div>
+        {% endif %}
+      </div>
+
+      <div class="col-lg-9">
+        <div class="d-flex align-items-center justify-content-between mb-3">
+          <h5 class="mb-0">Bài hát</h5>
+          <span class="text-secondary small">{{ songs|length }} bài</span>
+        </div>
+
+        <div class="row" id="song-grid">
+          {% for song in songs %}
+          <div class="col-md-6 col-xl-4 mb-4 song-card-wrap" data-title="{{ song.title|lower }}"
+            data-artist="{{ song.artist|lower }}">
+            <a class="card song-card h-100 text-decoration-none text-reset" href="{% url 'player' song.id %}">
+              <div class="card-body text-center">
+                {% if song.image %}
+                <img src="{{ song.image.url }}" alt="{{ song.title }}" class="img-fluid mb-3" style="
+                      max-height: 200px;
+                      object-fit: cover;
+                      border-radius: 12px;
+                    " />
+                {% else %}
+                <div class="bg-secondary bg-opacity-25 text-white d-flex align-items-center justify-content-center mb-3"
+                  style="height: 200px; border-radius: 12px">
+                  <i class="fas fa-music fa-3x text-secondary"></i>
+                </div>
+                {% endif %}
+                <h5 class="card-title">{{ song.title }}</h5>
+                <p class="card-text text-secondary mb-1">{{ song.artist }}</p>
+                {% if song.album %}
+                <p class="card-text">
+                  <span class="badge badge-soft"><i class="fas fa-record-vinyl me-1"></i>{{ song.album}}
+                  </span>
+                </p>
+                {% endif %}
+                <button type="button" class="btn play-btn mt-2" aria-label="Phát {{ song.title }}">
+                  <i class="fas fa-play"></i>
+                </button>
+              </div>
+            </a>
+          </div>
+          {% empty %}
+          <div class="col-12">
+            <div class="alert alert-info">
+              No songs available. Upload some music!
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal tạo playlist -->
+  <div class="modal fade" id="createPlaylistModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content" style="background: #0f172a; border: 1px solid #1f2937">
+        <div class="modal-header" style="border-bottom: 1px solid #1f2937">
+          <h5 class="modal-title" style="color: #e2e8f0">
+            <i class="fas fa-plus-circle me-2"></i>Tạo playlist mới
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <form method="POST" action="{% url 'create_playlist' %}">
+          {% csrf_token %}
+          <div class="modal-body" style="color: #e2e8f0">
+            <div class="mb-3">
+              <label for="playlistName" class="form-label">Tên playlist</label>
+              <input type="text" class="form-control" id="playlistName" name="name" placeholder="Nhập tên playlist..."
+                required style="
+                    background: #0b1222;
+                    border: 1px solid #1f2937;
+                    color: #e2e8f0;
+                  " />
+              <small class="form-text text-secondary">Tên playlist phải là duy nhất</small>
+            </div>
+          </div>
+          <div class="modal-footer" style="border-top: 1px solid #1f2937">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+              Hủy
+            </button>
+            <button type="submit" class="btn btn-primary" style="
+                  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                  border: none;
+                ">
+              <i class="fas fa-check me-2"></i>Tạo
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hiển thị messages -->
+  {% if messages %}
+  <div class="position-fixed top-0 end-0 p-3" style="z-index: 11">
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+      {{ message }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const searchInput = document.getElementById("song-search");
+    const songCards = document.querySelectorAll(".song-card-wrap");
+    const voiceSearchBtn = document.getElementById("voice-search-btn");
+
+    searchInput?.addEventListener("input", (e) => {
+      const keyword = e.target.value.toLowerCase().trim();
+      songCards.forEach((card) => {
+        const title = card.dataset.title || "";
+        const artist = card.dataset.artist || "";
+        const match = title.includes(keyword) || artist.includes(keyword);
+        card.style.display = match ? "" : "none";
+      });
+    });
+
+    // Voice search functionality
+    if (
+      "webkitSpeechRecognition" in window ||
+      "SpeechRecognition" in window
+    ) {
+      const SpeechRecognition =
+        window.SpeechRecognition || window.webkitSpeechRecognition;
+      const recognition = new SpeechRecognition();
+
+      recognition.continuous = false;
+      recognition.interimResults = false;
+      recognition.lang = "vi-VN"; // Vietnamese language
+
+      let isListening = false;
+
+      voiceSearchBtn?.addEventListener("click", () => {
+        if (isListening) {
+          recognition.stop();
+          isListening = false;
+          voiceSearchBtn.innerHTML = '<i class="fas fa-microphone"></i>';
+          voiceSearchBtn.style.color = "#e2e8f0";
+        } else {
+          recognition.start();
+          isListening = true;
+          voiceSearchBtn.innerHTML =
+            '<i class="fas fa-microphone-slash"></i>';
+          voiceSearchBtn.style.color = "#ef4444";
+        }
+      });
+
+      recognition.onresult = (event) => {
+        let transcript = event.results[0][0].transcript;
+        transcript = transcript.replace(/\.$/, ""); // Remove trailing period
+        searchInput.value = transcript;
+        searchInput.dispatchEvent(new Event("input"));
+      };
+
+      recognition.onend = () => {
+        isListening = false;
+        voiceSearchBtn.innerHTML = '<i class="fas fa-microphone"></i>';
+        voiceSearchBtn.style.color = "#e2e8f0";
+      };
+
+      recognition.onerror = (event) => {
+        console.error("Speech recognition error:", event.error);
+        isListening = false;
+        voiceSearchBtn.innerHTML = '<i class="fas fa-microphone"></i>';
+        voiceSearchBtn.style.color = "#e2e8f0";
+        alert("Lỗi nhận dạng giọng nói. Vui lòng thử lại.");
+      };
+    } else {
+      voiceSearchBtn?.addEventListener("click", () => {
+        alert("Trình duyệt của bạn không hỗ trợ tìm kiếm bằng giọng nói.");
+      });
+      voiceSearchBtn.style.opacity = "0.5";
+      voiceSearchBtn.disabled = true;
+    }
+  </script>
+</body>
+
+</html>
