@@ -419,8 +419,9 @@
                 <i
                   class="fas {% if song.emotion == 'happy' %}fa-smile{% elif song.emotion == 'sad' %}fa-frown{% elif song.emotion == 'relaxed' %}fa-leaf{% else %}fa-brain{% endif %}"></i>
                 {{ song.get_emotion_display }}
-                <small style="opacity: 0.8; font-weight: normal; margin-left: 5px;">{{
-                  song.emotion_confidence_pct|floatformat:0 }}%</small>
+                <small
+                  style="opacity: 0.8; font-weight: normal; margin-left: 5px;">{{song.emotion_confidence_pct|floatformat:0}}%
+                </small>
               </div>
               {% endif %}
 

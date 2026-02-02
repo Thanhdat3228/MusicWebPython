@@ -1,3 +1,4 @@
+from django.utils.safestring import mark_safe
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -285,8 +286,10 @@ def analyze_song_emotion(request, song_id):
             # Success message
             messages.success(
                 request,
-                f'✅ Phân loại thành công: <strong>{emotion_display}</strong> '
-                f'({result["confidence"]:.1%} độ tin cậy)'
+                mark_safe(f'✅ Phân loại thành công: <strong>{emotion_display}</strong> '
+              f'({result["confidence"]:.1%} độ tin cậy)')
+
+
             )
         elif isinstance(result, dict) and 'error' in result:
             messages.error(
