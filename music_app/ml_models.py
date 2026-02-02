@@ -11,6 +11,7 @@ Cách hoạt động:
 """
 
 from transformers import pipeline
+from dotenv import load_dotenv
 import torch
 import logging
 import os
@@ -20,7 +21,8 @@ os.environ["HF_HUB_DISABLE_SYMLINKS_WARNING"] = "1"
 os.environ["HTTP_HUB_OFFLINE"] = "0"
 
 # --- HF TOKEN INTEGRATION ---
-os.environ["HF_TOKEN"] = "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"
+load_dotenv()
+HF_TOKEN = os.getenv("HF_TOKEN")
 # ----------------------------
 
 logger = logging.getLogger(__name__)
