@@ -259,59 +259,86 @@
       background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
     }
 
-    /* Emotion Filter Bar Styles */
+    .filter-tag.active.contemplative {
+      background: linear-gradient(135deg, #fa709a, #fee140);
+    }
+
+    .filter-section {
+      background: rgba(30, 41, 59, 0.4);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 20px;
+      padding: 1.5rem;
+      margin-top: -20px;
+      margin-bottom: 3rem;
+      position: relative;
+      z-index: 30;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .filter-title {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #94a3b8;
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+
     .emotion-filters {
       display: flex;
       justify-content: center;
-      gap: 15px;
-      margin-top: 25px;
+      gap: 12px;
       flex-wrap: wrap;
     }
 
     .filter-tag {
-      padding: 8px 18px;
-      border-radius: 20px;
-      font-size: 0.9rem;
+      padding: 10px 22px;
+      border-radius: 30px;
+      font-size: 0.95rem;
       font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
+      color: #94a3b8;
+      background: rgba(15, 23, 42, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       text-decoration: none;
-      color: rgba(255, 255, 255, 0.7);
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(5px);
     }
 
     .filter-tag:hover {
-      background: rgba(255, 255, 255, 0.15);
       color: white;
-      transform: translateY(-2px);
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.2);
+      transform: scale(1.05);
     }
 
     .filter-tag.active {
       color: white;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-      border-color: rgba(255, 255, 255, 0.3);
+      transform: scale(1.1);
     }
 
     .filter-tag.active.all {
-      background: rgba(255, 255, 255, 0.2);
+      background: #334155;
+      box-shadow: 0 4px 15px rgba(51, 65, 85, 0.3);
     }
 
     .filter-tag.active.happy {
       background: linear-gradient(135deg, #f093fb, #f5576c);
+      box-shadow: 0 4px 15px rgba(245, 87, 108, 0.3);
     }
 
     .filter-tag.active.sad {
       background: linear-gradient(135deg, #4facfe, #00f2fe);
+      box-shadow: 0 4px 15px rgba(0, 242, 254, 0.3);
     }
 
     .filter-tag.active.relaxed {
       background: linear-gradient(135deg, #43e97b, #38f9d7);
+      box-shadow: 0 4px 15px rgba(56, 249, 215, 0.3);
     }
 
     .filter-tag.active.contemplative {
       background: linear-gradient(135deg, #fa709a, #fee140);
+      box-shadow: 0 4px 15px rgba(254, 225, 64, 0.3);
     }
   </style>
 </head>
@@ -348,30 +375,6 @@
               <button type="button" class="btn btn-primary-gradient px-4" id="voice-search-btn">
                 <i class="fas fa-microphone"></i>
               </button>
-            </div>
-
-            <!-- AI Emotion Filter Bar -->
-            <div class="emotion-filters">
-              <a href="{% url 'home' %}?emotion=all"
-                class="filter-tag all {% if not current_emotion or current_emotion == 'all' %}active{% endif %}">
-                <i class="fas fa-th-large me-1"></i> Tất cả
-              </a>
-              <a href="{% url 'home' %}?emotion=happy"
-                class="filter-tag happy {% if current_emotion == 'happy' %}active{% endif %}">
-                <i class="fas fa-smile me-1"></i> Vui
-              </a>
-              <a href="{% url 'home' %}?emotion=sad"
-                class="filter-tag sad {% if current_emotion == 'sad' %}active{% endif %}">
-                <i class="fas fa-frown me-1"></i> Buồn
-              </a>
-              <a href="{% url 'home' %}?emotion=relaxed"
-                class="filter-tag relaxed {% if current_emotion == 'relaxed' %}active{% endif %}">
-                <i class="fas fa-leaf me-1"></i> Thư giãn
-              </a>
-              <a href="{% url 'home' %}?emotion=contemplative"
-                class="filter-tag contemplative {% if current_emotion == 'contemplative' %}active{% endif %}">
-                <i class="fas fa-brain me-1"></i> Sâu lắng
-              </a>
             </div>
           </div>
         </div>
@@ -433,6 +436,33 @@
       </div>
       {% endif %}
 
+    </div>
+
+    <!-- AI Emotion Filter Bar (Pushed down to avoid overlap) -->
+    <div class="filter-section text-center">
+      <p class="filter-title"><i class="fas fa-magic me-2"></i> Lọc theo tâm trạng AI</p>
+      <div class="emotion-filters">
+        <a href="{% url 'home' %}?emotion=all"
+          class="filter-tag all {% if not current_emotion or current_emotion == 'all' %}active{% endif %}">
+          <i class="fas fa-th-large me-1"></i> Tất cả
+        </a>
+        <a href="{% url 'home' %}?emotion=happy"
+          class="filter-tag happy {% if current_emotion == 'happy' %}active{% endif %}">
+          <i class="fas fa-smile me-1"></i> Vui
+        </a>
+        <a href="{% url 'home' %}?emotion=sad"
+          class="filter-tag sad {% if current_emotion == 'sad' %}active{% endif %}">
+          <i class="fas fa-frown me-1"></i> Buồn
+        </a>
+        <a href="{% url 'home' %}?emotion=relaxed"
+          class="filter-tag relaxed {% if current_emotion == 'relaxed' %}active{% endif %}">
+          <i class="fas fa-leaf me-1"></i> Thư giãn
+        </a>
+        <a href="{% url 'home' %}?emotion=contemplative"
+          class="filter-tag contemplative {% if current_emotion == 'contemplative' %}active{% endif %}">
+          <i class="fas fa-brain me-1"></i> Sâu lắng
+        </a>
+      </div>
     </div>
 
     <div class="row">
