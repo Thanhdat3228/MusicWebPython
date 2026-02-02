@@ -65,9 +65,18 @@ def upload_song(request):
 
 @login_required
 def home(request):
-    songs = Song.objects.all()
+    emotion = request.GET.get('emotion')
+    if emotion and emotion != 'all':
+        songs = Song.objects.filter(emotion=emotion)
+    else:
+        songs = Song.objects.all()
+    
     playlists = Playlist.objects.filter(user=request.user)
-    return render(request, 'music_app/home.html', {'songs': songs, 'playlists': playlists})
+    return render(request, 'music_app/home.html', {
+        'songs': songs, 
+        'playlists': playlists,
+        'current_emotion': emotion
+    })
 
 @login_required
 def player(request, song_id):

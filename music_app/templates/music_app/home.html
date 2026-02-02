@@ -258,6 +258,61 @@
     .emotion-contemplative {
       background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
     }
+
+    /* Emotion Filter Bar Styles */
+    .emotion-filters {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 25px;
+      flex-wrap: wrap;
+    }
+
+    .filter-tag {
+      padding: 8px 18px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      color: rgba(255, 255, 255, 0.7);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(5px);
+    }
+
+    .filter-tag:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    .filter-tag.active {
+      color: white;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .filter-tag.active.all {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .filter-tag.active.happy {
+      background: linear-gradient(135deg, #f093fb, #f5576c);
+    }
+
+    .filter-tag.active.sad {
+      background: linear-gradient(135deg, #4facfe, #00f2fe);
+    }
+
+    .filter-tag.active.relaxed {
+      background: linear-gradient(135deg, #43e97b, #38f9d7);
+    }
+
+    .filter-tag.active.contemplative {
+      background: linear-gradient(135deg, #fa709a, #fee140);
+    }
   </style>
 </head>
 
@@ -293,6 +348,30 @@
               <button type="button" class="btn btn-primary-gradient px-4" id="voice-search-btn">
                 <i class="fas fa-microphone"></i>
               </button>
+            </div>
+
+            <!-- AI Emotion Filter Bar -->
+            <div class="emotion-filters">
+              <a href="{% url 'home' %}?emotion=all"
+                class="filter-tag all {% if not current_emotion or current_emotion == 'all' %}active{% endif %}">
+                <i class="fas fa-th-large me-1"></i> Tất cả
+              </a>
+              <a href="{% url 'home' %}?emotion=happy"
+                class="filter-tag happy {% if current_emotion == 'happy' %}active{% endif %}">
+                <i class="fas fa-smile me-1"></i> Vui
+              </a>
+              <a href="{% url 'home' %}?emotion=sad"
+                class="filter-tag sad {% if current_emotion == 'sad' %}active{% endif %}">
+                <i class="fas fa-frown me-1"></i> Buồn
+              </a>
+              <a href="{% url 'home' %}?emotion=relaxed"
+                class="filter-tag relaxed {% if current_emotion == 'relaxed' %}active{% endif %}">
+                <i class="fas fa-leaf me-1"></i> Thư giãn
+              </a>
+              <a href="{% url 'home' %}?emotion=contemplative"
+                class="filter-tag contemplative {% if current_emotion == 'contemplative' %}active{% endif %}">
+                <i class="fas fa-brain me-1"></i> Sâu lắng
+              </a>
             </div>
           </div>
         </div>
